@@ -11,4 +11,7 @@ import scrapy
 class MoviereviewItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
-    pass
+    Title = scrapy.Field()
+    Source = scrapy.Field()
+    Time = scrapy.Field()
+    Content = scrapy.Field()
