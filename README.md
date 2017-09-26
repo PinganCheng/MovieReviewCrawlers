@@ -6,7 +6,7 @@
 
 This repository consists of a series of web crawlers crawling several movie review websites.
 
-Websites includes:
+Websites include:
 * http://maoyan.com/news?showTab=2 
 * http://news.mtime.com/movie/all/#nav
 * http://www.51oscar.com/review.html
