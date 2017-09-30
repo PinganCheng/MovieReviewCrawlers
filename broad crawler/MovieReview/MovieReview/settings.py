@@ -15,17 +15,17 @@ SPIDER_MODULES = ['MovieReview.spiders']
 NEWSPIDER_MODULE = 'MovieReview.spiders'
 
 # Enables scheduling storing requests queue in redis.
-SCHEDULER = "scrapy_redis.scheduler.Scheduler"
+# SCHEDULER = "scrapy_redis.scheduler.Scheduler"
 
 # Ensure all spiders share same duplicates filter through redis.
-DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
+# DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
 
-REDIS_HOST = 'localhost'
+# REDIS_HOST = 'localhost'
 
-REDIS_PORT = 6379
+# REDIS_PORT = 6379
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'MovieReview (+http://www.yourdomain.com)'
+#USER_AGENT = 'Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1667.0 Safari/537.36'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
@@ -56,14 +56,14 @@ ROBOTSTXT_OBEY = True
 # Enable or disable spider middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
-#    'MovieReview.middlewares.MyCustomSpiderMiddleware': 543,
+#    'MovieReview.middlewares.RotateUserAgentMiddleware': 543,
 #}
 
 # Enable or disable downloader middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    'MovieReview.middlewares.MyCustomDownloaderMiddleware': 543,
-#}
+DOWNLOADER_MIDDLEWARES = {
+    'MovieReview.middlewares.RotateUserAgentMiddleware': 100,
+}
 
 # Enable or disable extensions
 # See http://scrapy.readthedocs.org/en/latest/topics/extensions.html
