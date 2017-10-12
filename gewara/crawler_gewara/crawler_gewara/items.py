@@ -11,4 +11,15 @@ import scrapy
 class CrawlerGewaraItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
+
+    url = scrapy.Field()
+    Title = scrapy.Field()
+    Grade = scrapy.Field()
+    ReleaseTime = scrapy.Field()
+    Types = scrapy.Field()
+    Country = scrapy.Field()
+    Language = scrapy.Field()
+    MovieTime = scrapy.Field()
+    Director = scrapy.Field()
+    Actor = =scrapy.Field()
     pass
