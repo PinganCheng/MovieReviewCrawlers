@@ -14,6 +14,27 @@ BOT_NAME = 'crawler_gewara'
 SPIDER_MODULES = ['crawler_gewara.spiders']
 NEWSPIDER_MODULE = 'crawler_gewara.spiders'
 
+# Enables scheduling storing requests queue in redis.
+SCHEDULER = "scrapy_redis.scheduler.Scheduler"
+
+# Ensure all spiders share same duplicates filter through redis.
+DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
+
+REDIS_HOST = 'localhost'
+
+REDIS_PORT = 6379
+
+
+HBASE_CFG = {
+    'batch_size': 100,
+    'host': 'suyu',
+    'namespace': 'Gewara_Movie',
+    # 'row_count': 0,
+    'table_name': 'movie',
+    'movie_family': 'Movie',
+    'review_family': 'Review',
+    'namespace_separator': ':'
+}
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'crawler_gewara (+http://www.yourdomain.com)'
@@ -27,7 +48,7 @@ ROBOTSTXT_OBEY = True
 # Configure a delay for requests for the same website (default: 0)
 # See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-#DOWNLOAD_DELAY = 3
+DOWNLOAD_DELAY = 1
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
 #CONCURRENT_REQUESTS_PER_IP = 16
@@ -55,7 +76,11 @@ ROBOTSTXT_OBEY = True
 #DOWNLOADER_MIDDLEWARES = {
 #    'crawler_gewara.middlewares.MyCustomDownloaderMiddleware': 543,
 #}
-
+DOWNLOADER_MIDDLEWARES = {
+    'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
+    'crawler_gewara.middlewares.RotateUserAgentMiddleware': 543,
+#    'scrapy.contrib.downloadermiddleware.httpproxy.HttpProxyMiddleware': 110
+}
 # Enable or disable extensions
 # See http://scrapy.readthedocs.org/en/latest/topics/extensions.html
 #EXTENSIONS = {
@@ -64,9 +89,15 @@ ROBOTSTXT_OBEY = True
 
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
+ITEM_PIPELINES = {
 #    'crawler_gewara.pipelines.SomePipeline': 300,
-#}
+#
+    'scrapy_redis.pipelines.RedisPipeline': 300,
+<<<<<<< HEAD
+    #'scrapy_redis.pipelines.HbasePipeline': 800
+=======
+>>>>>>> Crawler_gewara_RC/master
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See http://doc.scrapy.org/en/latest/topics/autothrottle.html
@@ -88,3 +119,6 @@ ROBOTSTXT_OBEY = True
 #HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+
+
+RETRY_HTTP_CODES = [403, 404, 400]
