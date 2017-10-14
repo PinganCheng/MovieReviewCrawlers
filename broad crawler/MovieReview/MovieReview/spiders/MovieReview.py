@@ -10,13 +10,16 @@ sys.setdefaultencoding('utf-8')
 
 class MovieReviewSpider(scrapy.Spider):
     name = "movie"
-    start_urls = ['http://chuansong.me/account/duliyumovie?start=96',]
+    start_urls = ['http://www.1905.com/film/filmnews/yp/']
 
     # generate navigation page urls
     def parse(self, response):
         num_of_a = 0
         leaf_divs = []
         div_lenOfa = []
+
+        yield scrapy.Request(response.url, callback=self.extractLinks)
+
         divs = response.xpath('//div')
         # find leaf divs
         for div in divs:
@@ -37,10 +40,31 @@ class MovieReviewSpider(scrapy.Spider):
                 url = response.urljoin(url_next_page)
                 yield scrapy.Request(url, callback=self.parse)
 
-    # extract links of a single navigation page, send to parse_page method
     def extractLinks(self, response):
-        pass
+        div_lenDiv = []
+        comment_urls = []
+        divs = response.xpath('//div')
+        for div in divs:
+            div_lenDiv.append([div, len(div.xpath('./dl'))])
+        sorted_divs = sorted(div_lenDiv, key=lambda div_lenDiv:div_lenDiv[1], reverse=True)
+        urls = sorted_divs[0][0].xpath('.//a/@href').extract()
+        for url in urls:
+            complete_url = response.urljoin(url)
+            if complete_url not in comment_urls:
+                comment_urls.append(complete_url)
+        for url in comment_urls:
+            print url
+            yield scrapy.Request(url=url, callback=self.parsePage)
 
-    # parse specific pages
+# parse specific pages
     def parsePage(self, response):
-        pass
+        div_lenOfP = []
+        title = response.xpath('//title').extract_first()
+        divs = response.xpath('//div')
+        for div in divs:
+            div_lenOfP.append([div, len(div.xpath('./p'))])
+        sorted_divs = sorted(div_lenOfP, key=lambda div_lenOfP:div_lenOfP[1], reverse=True)
+        content_div = sorted_divs[0][0]
+        content = ''.join(content_div.xpath('.//p/text()').extract())
+        print content
+
