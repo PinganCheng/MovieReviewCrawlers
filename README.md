@@ -9,7 +9,7 @@ This repository consists of a series of web crawlers crawling several movie revi
 Websites include:
 * http://maoyan.com/news?showTab=2 
 * http://news.mtime.com/movie/all/#nav
-* http://www.51oscar.com/review.html
+* http://www.1905.com/film/filmnews/yp/
 * http://cinephilia.net/
 * http://www.gewara.com/news/cinema
 * 微信公众号：独立鱼电影
