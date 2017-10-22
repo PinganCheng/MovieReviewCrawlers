@@ -7,7 +7,6 @@
 
 import scrapy
 
-
 class MoviereviewItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
@@ -15,3 +14,6 @@ class MoviereviewItem(scrapy.Item):
     Source = scrapy.Field()
     Time = scrapy.Field()
     Content = scrapy.Field()
+    Images = scrapy.Field()
+    image_urls = scrapy.Field()
+    images = scrapy.Field()
