@@ -14,12 +14,10 @@ class CrawlerGewaraItem(scrapy.Item):
 
     url = scrapy.Field()
     Title = scrapy.Field()
-    Grade = scrapy.Field()
     ReleaseTime = scrapy.Field()
     Types = scrapy.Field()
     Country = scrapy.Field()
     Language = scrapy.Field()
-    MovieTime = scrapy.Field()
     Director = scrapy.Field()
     Actor = =scrapy.Field()
     pass
