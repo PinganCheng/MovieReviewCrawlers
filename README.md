@@ -17,6 +17,12 @@ Websites include:
 * 微信公众号：Anime Taste
 * 微信公众号：文慧园路三号
 
+Data Required:
+* Title
+* Source
+* Date
+* Content (Text & Images)
+
 ## Dependencies
 
 Language: Python
