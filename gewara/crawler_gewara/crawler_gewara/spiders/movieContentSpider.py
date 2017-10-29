@@ -29,24 +29,23 @@ class MovieContentSpider(RedisSpider):
         except IndexError:
             director = ''
         actor = response.xpath('//span[@class="name"]/text()').extract()[0]
-        data = selector.xpath('//div[@id="test3"]')
-        time = data.xpath('string(.)').extract()[0]
         response.xpath('//li[@class="first"]/text()').extract()
-        pls = response.xpath('//span[@class="pl"]')
-        performers = ''.join(response.xpath('//span[@class="actor"]/span[@class="attrs"]//text()').extract()[0:-1])
-        for pl in pls:
-            text_list = pl.xpath('./text()').extract()
-            if len(text_list) > 0:
-                if text_list[0] == '制片国家/地区:':
-                    country = pl.xpath('./following::text()').extract()[0]
-        rate = response.xpath('//div[@typeof="v:Rating"]//text()').extract()[1]
+        lis = response.xpath('//ul[@class="clear"]/li').extract()
+        time = lis[0]
+        time1, time2 = time.split(':', 1)
+        type = lis[1]
+        type1, type2 = type.split(':', 1)
+        country = lis[2]
+        country1, country2 = country.split(':', 1)
+        language = lis[3]
+        language1, language2 = language.split(':', 1)
         item['url'] = response.url
-        item['PostUrl'] = response.xpath('//div[@id="mainpic"]/a/img/@src').extract()[0]
         item['Title'] = name
         item['Director'] = director
-        item['ReleaseTime'] = ','.join(time)
-        item['Country'] = country
-        item['Actor'] = performers
+        item['ReleaseTime'] = time2
+        item['Types'] = type2
+        item['Country'] = country2
+        item['Actor'] = actor
         more_reviews = response.url + 'reviews'
         command = 'redis-cli -h ' + host + ' lpush more_reviews ' \
                 + more_reviews
