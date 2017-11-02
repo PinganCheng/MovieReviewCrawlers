@@ -35,19 +35,21 @@ class MtimeSpider(scrapy.Spider):
             yield scrapy.Request(url=news_url, callback=self.parseNews)
 
     def parseNews(self, response):
-        item = CrawlerMtimeItem()
-        title = response.xpath('//h2/text()').extract_first() + ' ' +\
-                response.xpath('//h3/text()').extract_first()
-        source = '时光网'
-        date = response.xpath('//div[@class="newsheader "]/p/text()').\
-                extract_first()
-        soup = BeautifulSoup(response.text, "lxml")
-        newsnote = soup.find(class_ = "newsnote")
-        newscontent = soup.find('div', {'id':'newsContent'})
-        content = newsnote.text + '\n' + newscontent.text
+        with open('files/' + str(hash(response.url)), 'w') as f:
+            f.write(response.text)
+#        item = CrawlerMtimeItem()
+#        title = response.xpath('//h2/text()').extract_first() + ' ' +\
+#                response.xpath('//h3/text()').extract_first()
+#        source = '时光网'
+#        date = response.xpath('//div[@class="newsheader "]/p/text()').\
+#                extract_first()
+#        soup = BeautifulSoup(response.text, "lxml")
+#        newsnote = soup.find(class_ = "newsnote")
+#        newscontent = soup.find('div', {'id':'newsContent'})
+#        content = newsnote.text + '\n' + newscontent.text
         # lack of image processing
-        item['title'] = title
-        item['source'] = source
-        item['date'] = date
-        item['content'] = content
-        yield item
+#        item['title'] = title
+#        item['source'] = source
+#        item['date'] = date
+#        item['content'] = content
+#        yield item
