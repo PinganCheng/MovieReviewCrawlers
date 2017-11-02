@@ -9,7 +9,7 @@ import sqlite3
 
 class Sqlite3Pipeline(object):
     def __init__(self):
-        self.conn = sqlite3.connect('MovieNews.db')
+        self.conn = sqlite3.connect('MovieNews_1.db')
     
     def process_item(self, item, spider):
         with open('hehe', 'w') as f:
@@ -22,8 +22,8 @@ class Sqlite3Pipeline(object):
                     Time VARCHAR(30) NOT NULL,\
                     Content TEXT NOT NULL)""")
             record = (item['Title'], item['Source'],\
-                    item['Time'], item['Content'], item['Images'])
-            cursor.execute('INSERT INTO MovieNews VALUES (?,?,?,?, ?)',\
+                    item['Time'], item['Content'])
+            cursor.execute('INSERT INTO MovieNews VALUES (?,?,?,?)',\
                     record)
             self.conn.commit()
         except sqlite3.ProgrammingError as e:

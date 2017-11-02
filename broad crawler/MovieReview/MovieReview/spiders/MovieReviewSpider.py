@@ -75,14 +75,14 @@ class MovieReviewSpider(scrapy.Spider):
         sorted_divs = sorted(div_lenOfP, key=lambda div_lenOfP:div_lenOfP[1], reverse=True)
         content_div = sorted_divs[0][0]
         content = ''.join(content_div.xpath('.//p/text()').extract())
-        imgs = [x for x in content_div.xpath('.//img/@src').extract()]
-        hashed_images = [hash(x) for x in imgs]
+        # imgs = [x for x in content_div.xpath('.//img/@src').extract()]
+        # hashed_images = [hash(x) for x in imgs]
         item['Title'] = title
         item['Source'] = source
         item['Time'] = "some time"
-        item['Images'] = str(hashed_images)
+        # item['Images'] = str(hashed_images)
         item['Content'] = content
-        item['image_urls'] = imgs
+        # item['image_urls'] = imgs
         yield item
 
     def determineMain(div, tag):
