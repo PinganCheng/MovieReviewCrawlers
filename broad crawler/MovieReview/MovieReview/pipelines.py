@@ -12,8 +12,6 @@ class Sqlite3Pipeline(object):
         self.conn = sqlite3.connect('MovieNews_1.db')
     
     def process_item(self, item, spider):
-        with open('hehe', 'w') as f:
-            f.write('sigh')
         try:
             cursor = self.conn.cursor()
             cursor.execute("""CREATE TABLE IF NOT EXISTS MovieNews
