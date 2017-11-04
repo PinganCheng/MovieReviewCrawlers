@@ -75,7 +75,7 @@ DOWNLOADER_MIDDLEWARES = {
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
     'MovieReview.pipelines.Sqlite3Pipeline': 500,
-    'scrapy.pipelines.images.ImagesPipeline': 1
+#    'scrapy.pipelines.images.ImagesPipeline': 1
 }
 
 IMAGES_STORE = 'images'

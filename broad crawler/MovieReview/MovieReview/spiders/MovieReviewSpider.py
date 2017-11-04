@@ -5,6 +5,7 @@ from MovieReview.items import MoviereviewItem
 from scrapy_redis.spiders import RedisSpider
 from scrapy.http import Request, HtmlResponse
 from scrapy.linkextractors import LinkExtractor
+from scrapy.selector import Selector
 from bs4 import BeautifulSoup
 
 reload(sys)
@@ -34,13 +35,13 @@ class MovieReviewSpider(scrapy.Spider):
         nav_divs = sorted(div_lenOfa, key=lambda tup:tup[1], reverse=True)
         divs = response.xpath('./div').extract()
         
-        # locate page number tage
+        # locate page number tag
         for div in nav_divs:
-            txt_in_a_tag = div.xpath('.//a/text()').extract()
+            txt_in_a_tag = div[0].xpath('.//a/text()').extract()
             if len(txt_in_a_tag) == 0:
                 continue
             if txt_in_a_tag[-1] == '下一页':
-                url_next_page = div.xpath('.//a/@href').extract()[-1]
+                url_next_page = div[0].xpath('.//a/@href').extract()[-1]
                 url = response.urljoin(url_next_page)
                 yield scrapy.Request(url, callback=self.parse)
 
@@ -63,9 +64,12 @@ class MovieReviewSpider(scrapy.Spider):
     def parsePage(self, response):
         item = MoviereviewItem()
         div_lenOfP = []
-        title = ''.join(response.xpath('//h1/text()').extract_first().split())
-        if title == None or title == '':
-            return
+        try:
+            title = ''
+            title = ''.join(response.xpath('//h1/text()').extract_first().split())
+        except AttributeError as e:
+            if title == None or title == '':
+                return
         url = str(response.url).replace('http://', '').\
                 replace('https://', '').replace('www.', '')
         source = url.split('.')[0]
@@ -75,14 +79,14 @@ class MovieReviewSpider(scrapy.Spider):
         sorted_divs = sorted(div_lenOfP, key=lambda div_lenOfP:div_lenOfP[1], reverse=True)
         content_div = sorted_divs[0][0]
         content = ''.join(content_div.xpath('.//p/text()').extract())
-        imgs = [x for x in content_div.xpath('.//img/@src').extract()]
-        hashed_images = [hash(x) for x in imgs]
+        # imgs = [x for x in content_div.xpath('.//img/@src').extract()]
+        # hashed_images = [hash(x) for x in imgs]
         item['Title'] = title
         item['Source'] = source
         item['Time'] = "some time"
-        item['Images'] = str(hashed_images)
+        # item['Images'] = str(hashed_images)
         item['Content'] = content
-        item['image_urls'] = imgs
+        # item['image_urls'] = imgs
         yield item
 
     def determineMain(div, tag):
