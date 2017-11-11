@@ -10,7 +10,7 @@ sys.setdefaultencoding('utf-8')
 class CinephiliaSpider(scrapy.Spider):
     name = "cine"
     pre_url = "http://cinephilia.net/page/"
-    page = 1
+    page = 260
 
     def start_requests(self):
         url = self.pre_url + str(self.page)
@@ -20,7 +20,7 @@ class CinephiliaSpider(scrapy.Spider):
     def parse(self, response):
         articles = response.xpath('//div[@class="posts border ajaxify-pagination"]/article')
         for article in articles:
-            url = article.xpath('.//figure[@class="post-gallery "]/a/@href').extract_first()
+            url = article.xpath('.//h3/a/@href').extract_first()
             yield scrapy.Request(url=url, callback=self.parsePage)
         url = self.pre_url + str(self.page)
         self.page += 1   
