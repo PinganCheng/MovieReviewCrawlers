@@ -18,10 +18,11 @@ class Sqlite3Pipeline(object):
                     (Title VARCHAR(300) NOT NULL,\
                     Source VARCHAR(50) NOT NULL,\
                     Time VARCHAR(30) NOT NULL,\
-                    Content TEXT NOT NULL)""")
+                    Content TEXT NOT NULL,\
+                    Url TEXT NOT NULL)""")
             record = (item['Title'], item['Source'],\
-                    item['Time'], item['Content'])
-            cursor.execute('INSERT INTO MovieNews VALUES (?,?,?,?)',\
+                    item['Time'], item['Content'], item['Url'])
+            cursor.execute('INSERT INTO MovieNews VALUES (?,?,?,?,?)',\
                     record)
             self.conn.commit()
         except sqlite3.ProgrammingError as e:
