@@ -39,6 +39,11 @@ class MovieContentSpider(RedisSpider):
         country1, country2 = country.split(':', 1)
         language = lis[3]
         language1, language2 = language.split(':', 1)
+        images =  response.xpath('.//img/@src').extract()]
+        hashed_images = [hash images]
+        item['Images'] = str(hashed_images)
+        item['Content'] = content
+        item['image_urls'] = images
         item['url'] = response.url
         item['Title'] = name
         item['Director'] = director
