@@ -20,4 +20,7 @@ class CrawlerGewaraItem(scrapy.Item):
     Language = scrapy.Field()
     Director = scrapy.Field()
     Actor = =scrapy.Field()
+    Images = scrapy.Field()
+    Image_urls = scrapy.Field()
+
     pass
