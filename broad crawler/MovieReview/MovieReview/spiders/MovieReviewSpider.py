@@ -7,6 +7,7 @@ from scrapy.http import Request, HtmlResponse
 from scrapy.linkextractors import LinkExtractor
 from scrapy.selector import Selector
 from bs4 import BeautifulSoup
+from obtain_date import obtain_date
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -60,7 +61,7 @@ class MovieReviewSpider(scrapy.Spider):
         for url in comment_urls:
             yield scrapy.Request(url=url, callback=self.parsePage)
 
-# parse specific pages
+    # parse specific pages
     def parsePage(self, response):
         item = MoviereviewItem()
         div_lenOfP = []
@@ -81,9 +82,10 @@ class MovieReviewSpider(scrapy.Spider):
         content = ''.join(content_div.xpath('.//p/text()').extract())
         # imgs = [x for x in content_div.xpath('.//img/@src').extract()]
         # hashed_images = [hash(x) for x in imgs]
+        item['Url'] = response.url
         item['Title'] = title
         item['Source'] = source
-        item['Time'] = "some time"
+        item['Time'] = obtain_date(response)
         # item['Images'] = str(hashed_images)
         item['Content'] = content
         # item['image_urls'] = imgs
