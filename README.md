@@ -12,6 +12,8 @@ Websites include:
 * http://www.1905.com/film/filmnews/yp/
 * http://cinephilia.net/
 * http://www.gewara.com/news/cinema
+* http://www.imdb.cn/news/
+* http://www.ethermetic.org
 * 微信公众号：独立鱼电影
 * 微信公众号：影乐志
 * 微信公众号：Anime Taste
